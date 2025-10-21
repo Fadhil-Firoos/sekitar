@@ -44,7 +44,7 @@ class RegisterPenjual extends Register
                 ->autofocus(),
 
             TextInput::make('email')
-                ->label('Email (Opsional)')
+                ->label('Email')
                 ->email()
                 ->maxLength(255)
                 ->helperText('Bisa dikosongkan atau diisi untuk keperluan komunikasi'),
