@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('phone')->nullable(); // Tambahkan ini
+            $table->string('phone')->unique();
+            $table->string('otp_code')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->enum('role', ['admin', 'penjual'])->default('penjual'); // Tambahkan ini
             $table->string('password');
             $table->rememberToken();

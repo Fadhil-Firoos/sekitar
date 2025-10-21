@@ -18,6 +18,9 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'phone',
         'role', // admin | penjual
+        'otp_code',
+        'otp_expires_at',
+        'is_verified',
     ];
 
     protected $hidden = [
@@ -49,7 +52,7 @@ class User extends Authenticatable implements FilamentUser
         }
 
         // Default: semua user bisa akses panel lain
-        return true;
+        return $this->is_verified;
     }
 
     /**
@@ -63,6 +66,23 @@ class User extends Authenticatable implements FilamentUser
     public function isPenjual(): bool
     {
         return $this->role === 'penjual';
+    }
+
+    /**
+     * Helper OTP
+     */
+    public function otpIsValid(string $otp): bool
+    {
+        return $this->otp_code === $otp && now()->lt($this->otp_expires_at);
+    }
+
+    public function markVerified(): void
+    {
+        $this->update([
+            'is_verified' => true,
+            'otp_code' => null,
+            'otp_expires_at' => null,
+        ]);
     }
 
     /**
